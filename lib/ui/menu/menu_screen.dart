@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:ct484_final_project/widgets/slide.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
-import 'package:ct484_final_project/ui/quiz/quiz_manager.dart';
+import 'package:ct484_final_project/ui/quiz/quiz_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
