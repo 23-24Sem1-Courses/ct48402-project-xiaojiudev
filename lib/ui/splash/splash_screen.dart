@@ -10,12 +10,8 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF2e3c62), Color(0xFF99ace1)],
-          ),
+        decoration: BoxDecoration(
+          color: softpurpleColor,
           image: DecorationImage(
             image: AssetImage('assets/images/app_quiz_logo.png'),
             fit: BoxFit.contain,

@@ -11,10 +11,7 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/Result.png'),
-            fit: BoxFit.fill,
-          ),
+          color: softpurpleColor,
         ),
         child: Stack(
           children: [
@@ -27,7 +24,7 @@ class ResultScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 271,
                 decoration: BoxDecoration(
-                  color: Color(0xff00D7FA),
+                  color: softblueColor,
                   border: Border.all(color: blackColor, width: 4.0),
                   borderRadius: BorderRadius.all(Radius.circular(20.0)),
                 ),
@@ -47,7 +44,7 @@ class ResultScreen extends StatelessWidget {
                         margin: EdgeInsets.all(80.0),
                         decoration: BoxDecoration(
                             border: Border.all(color: whiteColor, width: 4.0),
-                            color: Color(0xff7C3CFF),
+                            color: redColor,
                             shape: BoxShape.circle),
                         child: Center(
                           child: Text(
@@ -90,7 +87,7 @@ class ResultScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => MenuScreen()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff7C3CFF),
+                    backgroundColor: blueColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: BorderSide(color: Colors.white, width: 2.0),

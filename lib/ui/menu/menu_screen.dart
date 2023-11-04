@@ -10,7 +10,7 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFFF6F7),
+      backgroundColor: softpurpleColor,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -23,16 +23,19 @@ class MenuScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Image.asset(
-                          'assets/images/icon.png',
-                          width: 79,
+                        ClipOval(
+                          child: Image.asset(
+                            'assets/images/icon.png',
+                            width: 42,
+                          ),
                         ),
+						SizedBox(width: 5),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Hello, Jason',
+                              'Hello, Phat',
                               style: boltwhiteTextStyle.copyWith(
                                   fontSize: 18, color: blackColor),
                             ),
@@ -42,7 +45,6 @@ class MenuScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        
                       ],
                     ),
                     SizedBox(height: 20),
@@ -71,7 +73,7 @@ class MenuScreen extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                        color: Colors.orange,
+                        color: softblueColor,
                         border: Border.all(color: Colors.black, width: 3.0),
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(44.0),
@@ -84,7 +86,7 @@ class MenuScreen extends StatelessWidget {
                           children: [
                             SizedBox(height: 20),
                             Text(
-                              "Recent Quiz",
+                              "All Quiz",
                               style: mediaumTextStyle.copyWith(fontSize: 18),
                             ),
                             SizedBox(height: 20),
@@ -111,119 +113,15 @@ class MenuScreen extends StatelessWidget {
                                         width: 65,
                                       ),
                                       title: Text(
-                                        'Astronomy',
+                                        'Network Data Communications',
                                         style: mediaumTextStyle.copyWith(
-                                            fontSize: 22),
+                                            fontSize: 15),
                                       ),
                                       subtitle:
-                                          Text('Learn about the Solar System'),
+                                          Text('Learn about the CCNA Network'),
                                       trailing:
                                           Image.asset('assets/images/Play.png'),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(22),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22),
-                                  side: BorderSide(
-                                      color: Colors.black, width: 2.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: ListTile(
-                                    leading:
-                                        Image.asset('assets/images/sains.png'),
-                                    title: Text(
-                                      'Sains',
-                                      style: mediaumTextStyle.copyWith(
-                                          fontSize: 22),
-                                    ),
-                                    subtitle: Text(
-                                        'Educacao Fisica, Autismo e Inclusao'),
-                                    trailing:
-                                        Image.asset('assets/images/Play.png'),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(22),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22),
-                                  side: BorderSide(
-                                      color: Colors.black, width: 2.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: ListTile(
-                                    leading:
-                                        Image.asset('assets/images/mtk.png'),
-                                    title: Text(
-                                      'Mathematics',
-                                      style: mediaumTextStyle.copyWith(
-                                          fontSize: 22),
-                                    ),
-                                    subtitle: Text(
-                                        'Learn fourth grade math—arithmetic,'),
-                                    trailing:
-                                        Image.asset('assets/images/Play.png'),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(22),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22),
-                                  side: BorderSide(
-                                      color: Colors.black, width: 2.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: ListTile(
-                                    leading: Image.asset(
-                                        'assets/images/color-palette.png'),
-                                    title: Text(
-                                      'Design',
-                                      style: mediaumTextStyle.copyWith(
-                                          fontSize: 22),
-                                    ),
-                                    subtitle: Text(
-                                        'Learn fourth grade math—arithmetic,'),
-                                    trailing:
-                                        Image.asset('assets/images/Play.png'),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(22),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22),
-                                  side: BorderSide(
-                                      color: Colors.black, width: 2.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: ListTile(
-                                    leading:
-                                        Image.asset('assets/images/medal.png'),
-                                    title: Text(
-                                      'Olympiade',
-                                      style: mediaumTextStyle.copyWith(
-                                          fontSize: 22),
-                                    ),
-                                    subtitle: Text(
-                                        'Learn fourth grade math—arithmetic,'),
-                                    trailing:
-                                        Image.asset('assets/images/Play.png'),
                                   ),
                                 ),
                               ),

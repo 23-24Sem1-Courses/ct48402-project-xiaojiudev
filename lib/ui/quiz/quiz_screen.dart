@@ -11,10 +11,7 @@ class DetailQuiz extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/bg2.png'),
-            fit: BoxFit.fill,
-          ),
+          color: softpurpleColor,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: edge),

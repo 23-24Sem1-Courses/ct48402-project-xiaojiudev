@@ -14,10 +14,7 @@ class DetailScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/bg1.png'),
-            fit: BoxFit.fill,
-          ),
+          color: softpurpleColor,
         ),
         child: Stack(
           children: [
@@ -25,14 +22,15 @@ class DetailScreen extends StatelessWidget {
               top: 180,
               left: 20,
               right: 20,
-              bottom: 500,
+              bottom: 450,
               child: DottedBorder(
                 color: Colors.black,
-                dashPattern: [8, 4],
+                dashPattern: [12, 8],
                 strokeWidth: 2,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 271,
+                  height: 270,
+				  padding: EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     //border: Border.all(color: blackColor, width: 4.0),
@@ -40,24 +38,38 @@ class DetailScreen extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'What is the “6” planet \nin the solar system ?',
-                      style: mediaumTextStyle.copyWith(fontSize: 27),
+                      '1. Your companny wants to purchase some network hardware to which they can plug the 30 PCs in your department. Which type of network device is appropriate?',
+                      style: mediaumTextStyle.copyWith(fontSize: 20),
+					  textAlign: TextAlign.justify,
                     ),
                   ),
                 ),
               ),
             ),
             Positioned(
-              top: 80,
-              left: -20,
+              top: 40,
+              left: 0,
               height: 150,
-              width: 206,
+              width: 100,
               child: Container(
                 width: 120,
                 height: 120,
                 child: Image.asset(
                   'assets/images/q2.png',
                   width: 20,
+                ),
+              ),
+            ),
+			Positioned(
+              top: 40,
+              left: 120, // Adjust the position of the countdown timer
+              height: 150,
+              width: 200,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  '00:10', // Replace with your countdown timer value
+                  style: mediaumTextStyle.copyWith(fontSize: 24),
                 ),
               ),
             ),
@@ -85,18 +97,18 @@ class DetailScreen extends StatelessWidget {
                       absoluteZeroSpacing: false,
                       unSelectedColor: Theme.of(context).canvasColor,
                       buttonLables: [
-                        'Jupiter',
-                        'Saturnus',
-                        'Earth',
-						'Venus',
+                        'A router',
+                        'A firewall',
+                        'A switch',
+						'A server',
                       ],
                       buttonValues: [
-                        "Jupiter",
-                        "Saturnus",
-                        "Earth",
-						'Venus',
+                        "A",
+                        "B",
+                        "C",
+						"D",
                       ],
-                      padding: 15,
+                      padding: 10,
                       enableShape: true,
                       horizontal: true,
                       spacing: 0,
