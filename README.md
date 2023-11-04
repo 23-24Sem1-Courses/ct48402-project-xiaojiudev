@@ -2,15 +2,11 @@
 
 Học kỳ 1, Năm học 2023-2024
 
-**MSSV 1** : 
+**MSSV 1** :  B1705292
 
-**Họ tên SV 1**:
+**Họ tên SV 1**: Lý Đại Phát
 
-**MSSV 2**:
+**Lớp học phần**: PTUD Di động (CT484) - Nhóm 02
 
-**Họ tên SV 2**:
-
-**Lớp học phần**:
-
-**Tên dự án**:
+**Tên dự án**: Study Quiz Application
 
