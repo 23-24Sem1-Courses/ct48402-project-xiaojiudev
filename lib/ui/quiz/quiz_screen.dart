@@ -1,10 +1,13 @@
+import 'package:ct484_final_project/utils/time_utils..dart';
 import 'package:flutter/material.dart';
 
+import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/detail/detail_screen.dart';
 
-class DetailQuiz extends StatelessWidget {
-  const DetailQuiz({super.key});
+class QuizScreen extends StatelessWidget {
+  final QuizCourse quiz;
+  const QuizScreen({required this.quiz, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +34,16 @@ class DetailQuiz extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      'Astronomy',
-                      style: mediaumTextStyle.copyWith(fontSize: 36),
+                      quiz.title,
+                      style: mediaumTextStyle.copyWith(fontSize: 32),
+					  textAlign: TextAlign.center,
                     ),
-                    Image.asset(
-                      'assets/images/tele.png',
+                    Image.network(
+                      quiz.imageUrl!,
                       width: 200,
                     ),
                     Text(
-                      'Level 5',
+                      'Time: ${TimeUtils.formatTime(quiz.timeSeconds)}',
                       style: mediaumTextStyle.copyWith(fontSize: 24),
                     )
                   ],
@@ -53,7 +57,7 @@ class DetailQuiz extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailScreen()));
+                            builder: (context) => DetailScreen(questions: quiz.questions!, timeCountdown: quiz.timeSeconds)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xffFFC10F),
