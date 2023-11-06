@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:ct484_final_project/models/quiz.dart';
+import 'package:ct484_final_project/ui/menu/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
@@ -5,12 +9,31 @@ import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:ct484_final_project/ui/quiz/quiz_screen.dart';
 import 'package:ct484_final_project/ui/result/result_screen.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:ct484_final_project/utils/app_logger.dart';
 
-class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key});
+class DetailScreen extends StatefulWidget {
+  final List<Question> questions;
+  final int timeCountdown;
+
+  const DetailScreen({required this.questions, required this.timeCountdown});
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  int currentQuestionIndex = 0;
+  int countdown = 0;
+  String selectedAnswer = '';
+
 
   @override
   Widget build(BuildContext context) {
+    for (var question in widget.questions) {
+      AppLogger.info("${question.correctAnswer}");
+    }
+    // AppLogger.info(widget.timeCountdown);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -30,7 +53,7 @@ class DetailScreen extends StatelessWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 270,
-				  padding: EdgeInsets.all(12.0),
+                  padding: EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     //border: Border.all(color: blackColor, width: 4.0),
@@ -40,7 +63,7 @@ class DetailScreen extends StatelessWidget {
                     child: Text(
                       '1. Your companny wants to purchase some network hardware to which they can plug the 30 PCs in your department. Which type of network device is appropriate?',
                       style: mediaumTextStyle.copyWith(fontSize: 20),
-					  textAlign: TextAlign.justify,
+                      textAlign: TextAlign.justify,
                     ),
                   ),
                 ),
@@ -60,7 +83,7 @@ class DetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-			Positioned(
+            Positioned(
               top: 40,
               left: 120, // Adjust the position of the countdown timer
               height: 150,
@@ -100,13 +123,13 @@ class DetailScreen extends StatelessWidget {
                         'A router',
                         'A firewall',
                         'A switch',
-						'A server',
+                        'A server',
                       ],
                       buttonValues: [
                         "A",
                         "B",
                         "C",
-						"D",
+                        "D",
                       ],
                       padding: 10,
                       enableShape: true,
@@ -118,7 +141,7 @@ class DetailScreen extends StatelessWidget {
                         textStyle: TextStyle(fontSize: 16),
                       ),
                       radioButtonValue: (value) {
-                        print(value);
+                        AppLogger.info('Selected value: ${value}');
                       },
                       selectedColor: Color(0xff7C3CFF),
                     ),
@@ -136,7 +159,8 @@ class DetailScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DetailQuiz()));
+                                      builder: (context) => /*QuizScreen()*/
+                                          MenuScreen()));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xff7C3CFF),
@@ -188,4 +212,18 @@ class DetailScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class QuizQuestion {
+  final String question;
+  final List<String> options;
+  final int correctAnswerIndex;
+  final int timeToAnswer;
+
+  QuizQuestion({
+    required this.question,
+    required this.options,
+    required this.correctAnswerIndex,
+    required this.timeToAnswer,
+  });
 }
