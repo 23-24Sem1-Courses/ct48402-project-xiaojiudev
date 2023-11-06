@@ -1,11 +1,45 @@
+import 'package:ct484_final_project/ui/quiz/quiz_card.dart';
 import 'package:flutter/material.dart';
 
+import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/widgets/slide.dart';
-import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:ct484_final_project/ui/quiz/quiz_screen.dart';
+import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:ct484_final_project/services/quiz_service.dart';
 
-class MenuScreen extends StatelessWidget {
+class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
+
+  @override
+  State<MenuScreen> createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  late QuizService _quizService;
+  List<QuizCourse> _quizzesData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _quizService = QuizService();
+    _fetchQuizzes();
+  }
+
+  Future<void> _fetchQuizzes() async {
+    final quizzes = await _quizService.fetchAllQuizzes();
+
+    if (quizzes != null) {
+
+    //   AppLogger.info(quizzes);
+
+      setState(() {
+        _quizzesData = quizzes;
+      });
+    } else {
+      AppLogger.info('Failed to fetch all quizzes, returning empty list');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +48,7 @@ class MenuScreen extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
+          physics: ScrollPhysics(),
           child: Stack(
             children: [
               Container(
@@ -29,7 +64,7 @@ class MenuScreen extends StatelessWidget {
                             width: 42,
                           ),
                         ),
-						SizedBox(width: 5),
+                        SizedBox(width: 5),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,41 +125,16 @@ class MenuScreen extends StatelessWidget {
                               style: mediaumTextStyle.copyWith(fontSize: 18),
                             ),
                             SizedBox(height: 20),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DetailQuiz()));
+                            ListView.builder(
+                              itemCount: _quizzesData.length,
+                              shrinkWrap: true,
+							  physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final quiz = _quizzesData[index];
+                                return QuizCard(
+                                  quiz: quiz,
+                                );
                               },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(22),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(22),
-                                    side: BorderSide(
-                                        color: Colors.black, width: 2.0),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: ListTile(
-                                      leading: Image.asset(
-                                        'assets/images/planet.png',
-                                        width: 65,
-                                      ),
-                                      title: Text(
-                                        'Network Data Communications',
-                                        style: mediaumTextStyle.copyWith(
-                                            fontSize: 15),
-                                      ),
-                                      subtitle:
-                                          Text('Learn about the CCNA Network'),
-                                      trailing:
-                                          Image.asset('assets/images/Play.png'),
-                                    ),
-                                  ),
-                                ),
-                              ),
                             ),
                             SizedBox(height: 33),
                           ],
