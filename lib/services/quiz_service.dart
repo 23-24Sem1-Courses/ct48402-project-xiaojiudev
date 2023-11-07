@@ -29,7 +29,7 @@ class QuizService {
               answers: (questionData['answers'] as List).map((answerData) {
                 return Answer(
                   identifier: answerData['identifier'],
-                  answer: answerData['Answer'],
+                  text: answerData['text'],
                 );
               }).toList(),
             );
@@ -66,7 +66,7 @@ class QuizService {
               answers: (questionData['answers'] as List).map((answerData) {
                 return Answer(
                   identifier: answerData['identifier'],
-                  answer: answerData['Answer'],
+                  text: answerData['text'],
                 );
               }).toList(),
             );
