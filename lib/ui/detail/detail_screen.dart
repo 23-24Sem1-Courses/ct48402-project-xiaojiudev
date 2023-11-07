@@ -1,38 +1,82 @@
 import 'dart:async';
-
-import 'package:ct484_final_project/models/quiz.dart';
-import 'package:ct484_final_project/ui/menu/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 
-import 'package:ct484_final_project/ui/quiz/quiz_screen.dart';
-import 'package:ct484_final_project/ui/result/result_screen.dart';
-import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/utils/app_logger.dart';
+import 'package:ct484_final_project/ui/menu/menu_screen.dart';
+import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:ct484_final_project/ui/result/result_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final List<Question> questions;
   final int timeCountdown;
 
-  const DetailScreen({required this.questions, required this.timeCountdown});
+  const DetailScreen(
+      {super.key, required this.questions, required this.timeCountdown});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  List<QuizQuestion> quizQuestions = [];
   int currentQuestionIndex = 0;
-  int countdown = 0;
   String selectedAnswer = '';
 
+  int _countdown = 0;
+  bool resultScreenShown = false;
+
+  late Timer countdownTimer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    quizQuestions = widget.questions.map((questionData) {
+      return QuizQuestion(
+        question: questionData.question,
+        answerOptions: Map.fromIterable(
+          questionData.answers!,
+          key: (answer) => answer.identifier,
+          value: (answer) => answer.text,
+        ),
+        correctAnswer: questionData.correctAnswer,
+      );
+    }).toList();
+
+    _countdown = widget.timeCountdown;
+
+    countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _countdown = _countdown - 1;
+      });
+
+      if (_countdown == 0 && !resultScreenShown) {
+        resultScreenShown = true;
+
+        timer.cancel();
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ResultScreen(),
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    countdownTimer.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
-    for (var question in widget.questions) {
-      AppLogger.info("${question.correctAnswer}");
-    }
-    // AppLogger.info(widget.timeCountdown);
+    final currentQuestion = quizQuestions[currentQuestionIndex];
 
     return Scaffold(
       body: Container(
@@ -61,7 +105,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      '1. Your companny wants to purchase some network hardware to which they can plug the 30 PCs in your department. Which type of network device is appropriate?',
+                      '${currentQuestionIndex + 1}. ${currentQuestion.question}',
                       style: mediaumTextStyle.copyWith(fontSize: 20),
                       textAlign: TextAlign.justify,
                     ),
@@ -85,13 +129,13 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
             Positioned(
               top: 40,
-              left: 120, // Adjust the position of the countdown timer
+              left: 120,
               height: 150,
               width: 200,
               child: Container(
                 alignment: Alignment.center,
                 child: Text(
-                  '00:10', // Replace with your countdown timer value
+                  '${formartTime(_countdown)}',
                   style: mediaumTextStyle.copyWith(fontSize: 24),
                 ),
               ),
@@ -119,18 +163,9 @@ class _DetailScreenState extends State<DetailScreen> {
                       elevation: 3,
                       absoluteZeroSpacing: false,
                       unSelectedColor: Theme.of(context).canvasColor,
-                      buttonLables: [
-                        'A router',
-                        'A firewall',
-                        'A switch',
-                        'A server',
-                      ],
-                      buttonValues: [
-                        "A",
-                        "B",
-                        "C",
-                        "D",
-                      ],
+                      buttonLables:
+                          currentQuestion.answerOptions.values.toList(),
+                      buttonValues: currentQuestion.answerOptions.keys.toList(),
                       padding: 10,
                       enableShape: true,
                       horizontal: true,
@@ -141,7 +176,8 @@ class _DetailScreenState extends State<DetailScreen> {
                         textStyle: TextStyle(fontSize: 16),
                       ),
                       radioButtonValue: (value) {
-                        AppLogger.info('Selected value: ${value}');
+                        selectedAnswer = value;
+                        AppLogger.info('Selected value: ${selectedAnswer}');
                       },
                       selectedColor: Color(0xff7C3CFF),
                     ),
@@ -156,11 +192,11 @@ class _DetailScreenState extends State<DetailScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
+                              // TODO: handle back
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => /*QuizScreen()*/
-                                          MenuScreen()));
+                                      builder: (context) => MenuScreen()));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xff7C3CFF),
@@ -182,10 +218,18 @@ class _DetailScreenState extends State<DetailScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
+                              if (currentQuestionIndex <
+                                  quizQuestions.length - 1) {
+                                setState(() {
+                                  currentQuestionIndex++;
+                                });
+                              } else {
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ResultScreen()));
+                                      builder: (context) => ResultScreen()),
+                                );
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xffFFC10F),
@@ -214,16 +258,27 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 }
 
+formartTime(int timeInSeconds) {
+  Duration duration = Duration(seconds: timeInSeconds);
+  String formattedTime;
+
+  if (duration.inHours > 0) {
+    formattedTime = duration.toString().split('.').first.padLeft(8, "0");
+  } else {
+    formattedTime = duration.toString().substring(2, 7);
+  }
+
+  return formattedTime;
+}
+
 class QuizQuestion {
   final String question;
-  final List<String> options;
-  final int correctAnswerIndex;
-  final int timeToAnswer;
+  final Map<String, String> answerOptions;
+  final String correctAnswer;
 
   QuizQuestion({
     required this.question,
-    required this.options,
-    required this.correctAnswerIndex,
-    required this.timeToAnswer,
+    required this.answerOptions,
+    required this.correctAnswer,
   });
 }
