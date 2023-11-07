@@ -1,19 +1,19 @@
 class Answer {
   final String identifier;
-  final String answer;
+  final String text;
 
   Answer({
     required this.identifier,
-    required this.answer,
+    required this.text,
   });
 
   Answer copyWith({
     String? identifier,
-    String? answer,
+    String? text,
   }) {
     return Answer(
       identifier: identifier ?? this.identifier,
-      answer: answer ?? this.answer,
+      text: text ?? this.text,
     );
   }
 }
@@ -66,9 +66,9 @@ class QuizCourse {
   QuizCourse copyWith({
     String? id,
     String? title,
-	String? imageUrl,
-	String? description,
-	int? timeSeconds,
+    String? imageUrl,
+    String? description,
+    int? timeSeconds,
     List<Question>? questions,
   }) {
     return QuizCourse(
