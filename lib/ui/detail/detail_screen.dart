@@ -23,7 +23,11 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   List<QuizQuestion> quizQuestions = [];
   int currentQuestionIndex = 0;
+
+  int score = 0;
+  bool answered = false;
   String selectedAnswer = '';
+  int selectedButtonIndex = -1;
 
   int _countdown = 0;
   bool resultScreenShown = false;
@@ -61,9 +65,12 @@ class _DetailScreenState extends State<DetailScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const ResultScreen(),
+            builder: (context) => ResultScreen(
+              correctQuestion: score,
+			  totalQuestions: quizQuestions.length,
+            ),
           ),
-        );
+        ).then((_) => countdownTimer.cancel());
       }
     });
   }
@@ -77,6 +84,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     final currentQuestion = quizQuestions[currentQuestionIndex];
+    AppLogger.info('Your score is: ${score}');
 
     return Scaffold(
       body: Container(
@@ -147,16 +155,16 @@ class _DetailScreenState extends State<DetailScreen> {
               bottom: 20,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   //border: Border.all(color: blackColor, width: 4.0),
                   borderRadius: BorderRadius.all(Radius.circular(20.0)),
                 ),
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     CustomRadioButton(
@@ -170,19 +178,31 @@ class _DetailScreenState extends State<DetailScreen> {
                       enableShape: true,
                       horizontal: true,
                       spacing: 0,
+                      height: 50,
                       buttonTextStyle: ButtonTextStyle(
-                        selectedColor: Colors.white,
-                        unSelectedColor: Colors.black,
+                        selectedColor: selectedButtonIndex == -1
+                            ? Colors.black
+                            : Colors.white,
                         textStyle: TextStyle(fontSize: 16),
                       ),
                       radioButtonValue: (value) {
-                        selectedAnswer = value;
-                        AppLogger.info('Selected value: ${selectedAnswer}');
+                        if (!answered) {
+                          setState(() {
+                            selectedAnswer = value;
+                            selectedButtonIndex = currentQuestion
+                                .answerOptions.keys
+                                .toList()
+                                .indexOf(value);
+                          });
+                          AppLogger.info('Selected value: ${selectedAnswer}');
+                        }
                       },
-                      selectedColor: Color(0xff7C3CFF),
+                      selectedColor: selectedButtonIndex != -1
+                          ? const Color(0xff7C3CFF)
+                          : Theme.of(context).canvasColor,
                     ),
-                    SizedBox(
-                      height: 60,
+                    const SizedBox(
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -218,17 +238,28 @@ class _DetailScreenState extends State<DetailScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (currentQuestionIndex <
-                                  quizQuestions.length - 1) {
-                                setState(() {
-                                  currentQuestionIndex++;
-                                });
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ResultScreen()),
-                                );
+                              if (!answered) {
+                                if (selectedAnswer ==
+                                    currentQuestion.correctAnswer) {
+                                  score++;
+                                }
+
+                                if (currentQuestionIndex <
+                                    quizQuestions.length - 1) {
+                                  setState(() {
+                                    currentQuestionIndex++;
+                                    selectedAnswer = '';
+                                    answered = false;
+                                    selectedButtonIndex = -1;
+                                  });
+                                } else {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ResultScreen(
+                                            correctQuestion: score, totalQuestions: quizQuestions.length,)),
+                                  );
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(
