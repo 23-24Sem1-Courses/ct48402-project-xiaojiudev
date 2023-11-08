@@ -6,6 +6,7 @@ import 'package:ct484_final_project/ui/quiz/quiz_card.dart';
 import 'package:ct484_final_project/ui/shared/app_drawer.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/services/quiz_service.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -17,28 +18,13 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  late QuizService _quizService;
+  late FirebaseQuizService _quizService;
   List<QuizCourse> _quizzesData = [];
 
   @override
   void initState() {
     super.initState();
-    _quizService = QuizService();
-    _fetchQuizzes();
-  }
-
-  Future<void> _fetchQuizzes() async {
-    final quizzes = await _quizService.fetchAllQuizzes();
-
-    if (quizzes != null) {
-      //   AppLogger.info(quizzes);
-
-      setState(() {
-        _quizzesData = quizzes;
-      });
-    } else {
-      AppLogger.info('Failed to fetch all quizzes, returning empty list');
-    }
+    _quizService = FirebaseQuizService();
   }
 
   @override
@@ -66,8 +52,8 @@ class _MenuScreenState extends State<MenuScreen> {
                         ClipOval(
                           child: GestureDetector(
                             onTap: () {
-								_scaffoldKey.currentState!.openDrawer();
-							},
+                              _scaffoldKey.currentState!.openDrawer();
+                            },
                             child: Image.asset(
                               'assets/images/icon.png',
                               width: 42,
@@ -114,16 +100,41 @@ class _MenuScreenState extends State<MenuScreen> {
                             style: mediaumTextStyle.copyWith(fontSize: 32),
                           ),
                           const SizedBox(height: 20),
-                          ListView.builder(
-                            itemCount: _quizzesData.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final quiz = _quizzesData[index];
+                          FutureBuilder(
+                            future: _quizService.fetchAllQuizzes(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: SizedBox(
+                                    width: 60,
+                                    height: 60,
+                                    child: LoadingIndicator(
+                                      indicatorType:
+                                          Indicator.ballSpinFadeLoader,
+                                      strokeWidth: 1,
+                                    ),
+                                  ),
+                                );
+                              } else if (snapshot.hasError) {
+                                AppLogger.info('${snapshot.error}');
+                                return const Center(
+                                    child: Text('Something went wrong'));
+                              } else {
+                                final quizzes = snapshot.data;
+                                return ListView.builder(
+                                  itemCount: quizzes!.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    final quiz = quizzes[index];
 
-                              return QuizCard(
-                                quiz: quiz,
-                              );
+                                    return QuizCard(
+                                      quiz: quiz,
+                                    );
+                                  },
+                                );
+                              }
                             },
                           ),
                           const SizedBox(height: 33),
