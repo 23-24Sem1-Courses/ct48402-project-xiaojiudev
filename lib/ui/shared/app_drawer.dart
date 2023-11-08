@@ -1,6 +1,8 @@
-import 'package:ct484_final_project/configs/themes/theme.dart';
-import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:flutter/material.dart';
+
+import 'package:ct484_final_project/utils/app_logger.dart';
+import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:ct484_final_project/ui/quiz/user_quiz_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -53,8 +55,6 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.auto_awesome_outlined),
             title: const Text('Explore'),
             onTap: () {
-              //   Navigator.of(context)
-              //       .pushReplacementNamed(UserProductsScreen.routeName);
               AppLogger.info('Go to explore page!');
             },
           ),
@@ -62,17 +62,13 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.bookmark),
             title: const Text('Saved'),
             onTap: () {
-              //   Navigator.of(context)
-              //       .pushReplacementNamed(UserProductsScreen.routeName);
               AppLogger.info('Go to saved page!');
             },
           ),
-		  ListTile(
+          ListTile(
             leading: const Icon(Icons.history),
             title: const Text('History'),
             onTap: () {
-              //   Navigator.of(context)
-              //       .pushReplacementNamed(UserProductsScreen.routeName);
               AppLogger.info('Go to history page!');
             },
           ),
@@ -81,8 +77,10 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.edit),
             title: const Text('Manage Quizzes'),
             onTap: () {
-              //   Navigator.of(context)
-              //       .pushReplacementNamed(UserProductsScreen.routeName);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UserQuizScreen()),
+              );
               AppLogger.info('Go to management quizzes page!');
             },
           ),
@@ -90,8 +88,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.query_stats),
             title: const Text('Statistics'),
             onTap: () {
-              //   Navigator.of(context)
-              //       .pushReplacementNamed(UserProductsScreen.routeName);
+
               AppLogger.info('Go to statistics page!');
             },
           ),
@@ -103,10 +100,6 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () {
-              //   Navigator.of(context)
-              //     ..pop()
-              //     ..pushReplacementNamed('/');
-              //   context.read<AuthManager>().logout();
               AppLogger.info('Go to setting page!');
             },
           ),
