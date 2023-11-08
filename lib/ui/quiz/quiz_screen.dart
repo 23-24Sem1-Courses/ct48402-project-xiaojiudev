@@ -28,7 +28,7 @@ class QuizScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: blackColor, width: 4.0),
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                 ),
                 width: MediaQuery.of(context).size.width,
                 height: 393,
@@ -57,7 +57,7 @@ class QuizScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 220,
                 height: 50,
                 child: ElevatedButton(
@@ -70,10 +70,10 @@ class QuizScreen extends StatelessWidget {
                                 timeCountdown: quiz.timeSeconds)));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xffFFC10F),
+                    backgroundColor: const Color(0xffFFC10F),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
-                      side: BorderSide(color: Colors.black, width: 2.0),
+                      side: const BorderSide(color: Colors.black, width: 2.0),
                     ),
                   ),
                   child: Text(
