@@ -1,7 +1,9 @@
-import 'package:ct484_final_project/utils/time_utils..dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:ct484_final_project/models/quiz.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:ct484_final_project/utils/time_utils..dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/detail/detail_screen.dart';
 
@@ -36,10 +38,16 @@ class QuizScreen extends StatelessWidget {
                     Text(
                       quiz.title,
                       style: mediaumTextStyle.copyWith(fontSize: 32),
-					  textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
                     ),
-                    Image.network(
-                      quiz.imageUrl!,
+                    CachedNetworkImage(
+                      imageUrl: quiz.imageUrl!,
+                      placeholder: (context, url) => const LoadingIndicator(
+                        indicatorType: Indicator.ballSpinFadeLoader,
+                        strokeWidth: 1,
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                       width: 200,
                     ),
                     Text(
@@ -57,7 +65,9 @@ class QuizScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailScreen(questions: quiz.questions!, timeCountdown: quiz.timeSeconds)));
+                            builder: (context) => DetailScreen(
+                                questions: quiz.questions!,
+                                timeCountdown: quiz.timeSeconds)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xffFFC10F),

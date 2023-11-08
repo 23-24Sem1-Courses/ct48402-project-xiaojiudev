@@ -1,8 +1,11 @@
-import 'package:ct484_final_project/configs/themes/theme.dart';
-import 'package:ct484_final_project/models/quiz.dart';
-import 'package:ct484_final_project/ui/quiz/quiz_screen.dart';
-import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+import 'package:ct484_final_project/models/quiz.dart';
+import 'package:ct484_final_project/utils/app_logger.dart';
+import 'package:ct484_final_project/ui/quiz/quiz_screen.dart';
+import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class QuizCard extends StatelessWidget {
   final QuizCourse quiz;
@@ -11,11 +14,10 @@ class QuizCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => QuizScreen(quiz: quiz)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => QuizScreen(quiz: quiz)));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(22),
@@ -27,9 +29,13 @@ class QuizCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
-              leading: Image.network(
-                quiz.imageUrl ??
-                    'https://res.cloudinary.com/de8xbko8y/image/upload/v1699278557/flutter/science_hyaj8u.png',
+              leading: CachedNetworkImage(
+                imageUrl: quiz.imageUrl!,
+                placeholder: (context, url) => const LoadingIndicator(
+                  indicatorType: Indicator.ballSpinFadeLoader,
+                  strokeWidth: 1,
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
                 width: 65,
               ),
               title: Text(
