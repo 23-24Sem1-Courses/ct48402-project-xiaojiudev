@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/utils/app_logger.dart';
 
-class QuizService {
+class FirebaseQuizService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<QuizCourse>> fetchAllQuizzes() async {
