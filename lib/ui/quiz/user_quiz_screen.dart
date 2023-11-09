@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/utils/app_logger.dart';
+import 'package:ct484_final_project/ui/menu/menu_screen.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/quiz/edit_quiz_screen.dart';
 import 'package:ct484_final_project/services/firebase_quiz_service.dart';
@@ -31,7 +32,11 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
         backgroundColor: softblueColor,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const MenuScreen()),
+                (Route<dynamic> route) => false);
+            // Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back),
         ),
@@ -85,7 +90,7 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
                         width: 100,
                         child: Row(
                           children: <Widget>[
-                            buildEditButton(context),
+                            buildEditButton(context, quiz),
                             buildDeleteButton(context, quiz),
                           ],
                         ),
@@ -105,17 +110,18 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
     return IconButton(
       icon: const Icon(Icons.add),
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => EditQuizScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => EditQuizScreen(null)));
       },
     );
   }
 
-  Widget buildEditButton(BuildContext context) {
+  Widget buildEditButton(BuildContext context, QuizCourse quiz) {
     return IconButton(
       icon: const Icon(Icons.edit),
       onPressed: () {
-        AppLogger.info('Go to edit page');
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => EditQuizScreen(quiz)));
       },
       color: Theme.of(context).primaryColor,
     );
@@ -147,7 +153,7 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
             ),
             TextButton(
               onPressed: () async {
-                await quizService.deleteQuiz(quiz.id);
+                await quizService.deleteQuiz(quiz.id!);
                 Navigator.of(context).pop();
 
                 _refreshKey.currentState?.show();
