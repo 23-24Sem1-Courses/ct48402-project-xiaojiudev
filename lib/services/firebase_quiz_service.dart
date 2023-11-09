@@ -32,23 +32,10 @@ class FirebaseQuizService {
         }).toList(),
       };
 
-
-
-      if (quiz.id == null) {
-		AppLogger.info('quizData: ${quizData.toString()}');
-
-        // Add new quiz
-        final docRef = await _firestore.collection(FIREBASE_QUIZ_COLLECTION).add(quizData);
-		quiz.id = docRef.id;
-      } else {
-		AppLogger.info('quizData: ${quizData.toString()}');
-
-        // Update existing quiz
-        await _firestore
+	   await _firestore
             .collection(FIREBASE_QUIZ_COLLECTION)
-            .doc(quiz.id!)
+            .doc(quiz.id)
             .set(quizData);
-      }
     } catch (e) {
       AppLogger.error(e);
     }
