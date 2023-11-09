@@ -9,6 +9,51 @@ class FirebaseQuizService {
   // ignore: constant_identifier_names
   static const String FIREBASE_QUIZ_COLLECTION = 'quizzes';
 
+  Future<void> saveQuiz(QuizCourse quiz) async {
+    try {
+      final quizData = {
+		'id': quiz.id,
+        'title': quiz.title,
+        'image_url': quiz.imageUrl,
+        'Description': quiz.description,
+        'time_seconds': quiz.timeSeconds,
+        'questions': quiz.questions!.map((question) {
+          return {
+			'id': question.id,
+            'question': question.question,
+            'correct_answer': question.correctAnswer,
+            'answers': question.answers!.map((answer) {
+              return {
+                'identifier': answer.identifier,
+                'text': answer.text,
+              };
+            }).toList(),
+          };
+        }).toList(),
+      };
+
+
+
+      if (quiz.id == null) {
+		AppLogger.info('quizData: ${quizData.toString()}');
+
+        // Add new quiz
+        final docRef = await _firestore.collection(FIREBASE_QUIZ_COLLECTION).add(quizData);
+		quiz.id = docRef.id;
+      } else {
+		AppLogger.info('quizData: ${quizData.toString()}');
+
+        // Update existing quiz
+        await _firestore
+            .collection(FIREBASE_QUIZ_COLLECTION)
+            .doc(quiz.id!)
+            .set(quizData);
+      }
+    } catch (e) {
+      AppLogger.error(e);
+    }
+  }
+
   Future<void> deleteQuiz(String quizId) async {
     try {
       await _firestore
