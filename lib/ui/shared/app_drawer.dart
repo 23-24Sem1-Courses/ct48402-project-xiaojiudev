@@ -1,3 +1,4 @@
+import 'package:ct484_final_project/ui/menu/menu_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ct484_final_project/utils/app_logger.dart';
@@ -77,6 +78,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.edit),
             title: const Text('Manage Quizzes'),
             onTap: () {
+              Navigator.of(context).pop();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const UserQuizScreen()),
@@ -88,7 +90,6 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.query_stats),
             title: const Text('Statistics'),
             onTap: () {
-
               AppLogger.info('Go to statistics page!');
             },
           ),
