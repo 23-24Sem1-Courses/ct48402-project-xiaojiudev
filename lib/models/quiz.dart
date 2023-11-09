@@ -1,6 +1,6 @@
 class Answer {
-  final String identifier;
-  final String text;
+  String identifier;
+  String text;
 
   Answer({
     required this.identifier,
@@ -16,13 +16,20 @@ class Answer {
       text: text ?? this.text,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'identifier': identifier,
+      'text': text,
+    };
+  }
 }
 
 class Question {
-  final String id;
-  final String question;
-  final List<Answer>? answers;
-  final String correctAnswer;
+  String id;
+  late String question;
+  List<Answer>? answers;
+  String correctAnswer;
 
   Question({
     required this.id,
@@ -44,15 +51,19 @@ class Question {
       correctAnswer: correctAnswer ?? this.correctAnswer,
     );
   }
+
+  void setCorrectAnswer(String newCorrectAnswer) {
+    correctAnswer = newCorrectAnswer;
+  }
 }
 
 class QuizCourse {
-  final String id;
-  final String title;
-  final String? imageUrl;
-  final String description;
-  final int timeSeconds;
-  final List<Question>? questions;
+  String id;
+  String title;
+  String? imageUrl;
+  String description;
+  int timeSeconds;
+  List<Question>? questions;
 
   QuizCourse({
     required this.id,
