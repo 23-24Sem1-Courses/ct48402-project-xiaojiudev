@@ -5,7 +5,7 @@ import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:ct484_final_project/ui/quiz/quiz_card.dart';
 import 'package:ct484_final_project/ui/shared/app_drawer.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
-import 'package:ct484_final_project/services/quiz_service.dart';
+import 'package:ct484_final_project/services/firebase_quiz_service.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -19,7 +19,6 @@ class _MenuScreenState extends State<MenuScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late FirebaseQuizService _quizService;
-  List<QuizCourse> _quizzesData = [];
 
   @override
   void initState() {
