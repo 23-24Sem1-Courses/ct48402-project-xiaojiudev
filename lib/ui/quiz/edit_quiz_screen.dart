@@ -1,9 +1,32 @@
-import 'package:ct484_final_project/configs/themes/theme.dart';
-import 'package:ct484_final_project/utils/app_logger.dart';
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+import 'package:ct484_final_project/models/quiz.dart';
+import 'package:ct484_final_project/utils/app_logger.dart';
+import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:ct484_final_project/services/firebase_quiz_service.dart';
 
 class EditQuizScreen extends StatefulWidget {
-  const EditQuizScreen({super.key});
+  EditQuizScreen(
+    QuizCourse? quizCourse, {
+    super.key,
+  }) {
+    if (quizCourse == null) {
+      this.quizCourse = QuizCourse(
+        id: const Uuid().v4(),
+        title: '',
+        imageUrl: '',
+        description: '',
+        timeSeconds: 0,
+        questions: [],
+      );
+    } else {
+      this.quizCourse = quizCourse;
+    }
+  }
+
+  late final QuizCourse quizCourse;
 
   @override
   State<EditQuizScreen> createState() => _EditQuizScreenState();
@@ -25,6 +48,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   @override
   void initState() {
+    _imageUrlController.text = widget.quizCourse.imageUrl ?? '';
     _imageUrlFocusNode.addListener(() {
       if (!_imageUrlFocusNode.hasFocus) {
         if (!_isValidImageUrl(_imageUrlController.text)) {
@@ -55,7 +79,11 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
       _isLoading = true;
     });
 
-    try {} catch (error) {
+    try {
+      AppLogger.info('Form: ${widget.quizCourse}');
+
+      await FirebaseQuizService().saveQuiz(widget.quizCourse);
+    } catch (error) {
       if (mounted) {
         AppLogger.error('Something went wrong.');
       }
@@ -72,6 +100,8 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // AppLogger.info('Quiz id ${widget.quizCourse.id}');
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Edit Quiz'),
@@ -81,9 +111,8 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
               onPressed: _saveForm,
             ),
           ],
-		  backgroundColor: softblueColor,
+          backgroundColor: softblueColor,
         ),
-        
         body: _isLoading
             ? const Center(child: CircularProgressIndicator())
             : Padding(
@@ -96,6 +125,24 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
                       buildDescriptionField(),
                       buildQuizPreview(),
                       buildTimeField(),
+                      ...widget.quizCourse.questions!
+                          .map((question) => buildQuestionWidget(question)),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            final newQuestion = Question(
+                              id: new Uuid()
+                                  .v4(), // Set a unique identifier for the question
+                              question: '',
+                              answers: [],
+                              correctAnswer: '',
+                            );
+                            widget.quizCourse.questions!.add(newQuestion);
+                          });
+                        },
+                        child: Text('Add Question'),
+                      ),
+                      //   buildQuestionField(),
                     ],
                   ),
                 ),
@@ -104,7 +151,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   TextFormField buildTitleField() {
     return TextFormField(
-      initialValue: '',
+      initialValue: widget.quizCourse.title ?? '',
       decoration: const InputDecoration(labelText: 'Title'),
       textInputAction: TextInputAction.next,
       autofocus: true,
@@ -114,13 +161,16 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
         }
         return null;
       },
-      onSaved: (value) {},
+      onSaved: (value) {
+        AppLogger.info('Title is: ${value.toString()}');
+        widget.quizCourse.title = value!;
+      },
     );
   }
 
   TextFormField buildDescriptionField() {
     return TextFormField(
-      initialValue: '',
+      initialValue: widget.quizCourse.description ?? '',
       decoration: const InputDecoration(labelText: 'Description'),
       maxLines: 3,
       keyboardType: TextInputType.multiline,
@@ -134,10 +184,13 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
         return null;
       },
-      onSaved: (value) {},
+      onSaved: (value) {
+        widget.quizCourse.description = value!;
+      },
     );
   }
 
+// Image preview
   buildQuizPreview() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -150,16 +203,21 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
             right: 10,
           ),
           decoration: BoxDecoration(
-            border: Border.all(
-              width: 1,
-              color: Colors.grey,
-            ),
-          ),
+              border: Border.all(
+                width: 0.2,
+                color: Colors.grey,
+              ),
+              borderRadius: BorderRadius.circular(8)),
           child: _imageUrlController.text.isEmpty
-              ? const Text('Enter a URL')
+              ? FittedBox(
+                  child: Image.asset(
+                    'assets/images/upload.png',
+                    fit: BoxFit.cover,
+                  ),
+                )
               : FittedBox(
-                  child: Image.network(
-                    _imageUrlController.text,
+                  child: CachedNetworkImage(
+                    imageUrl: _imageUrlController.text,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -173,8 +231,8 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   TextFormField buildTimeField() {
     return TextFormField(
-      initialValue: 0.toString(),
-      decoration: const InputDecoration(labelText: 'Time'),
+      initialValue: widget.quizCourse.timeSeconds.toString(),
+      decoration: const InputDecoration(labelText: 'Time (seconds)'),
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.number,
       validator: (value) {
@@ -189,11 +247,13 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
         }
         return null;
       },
-      onSaved: (value) {},
+      onSaved: (value) {
+        widget.quizCourse.timeSeconds = int.parse(value!);
+      },
     );
   }
 
-  buildImageURLField() {
+  TextFormField buildImageURLField() {
     return TextFormField(
       decoration: const InputDecoration(labelText: 'Image URL'),
       keyboardType: TextInputType.url,
@@ -210,7 +270,79 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
         }
         return null;
       },
-      onSaved: (value) {},
+      onSaved: (value) {
+        widget.quizCourse.imageUrl = value;
+      },
+    );
+  }
+
+  Widget buildQuestionWidget(Question question) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          initialValue: question.question,
+          decoration: InputDecoration(labelText: 'Question'),
+          textInputAction: TextInputAction.next,
+          validator: (value) {
+            if (value?.isEmpty ?? true) {
+              return 'Please provide a question';
+            }
+            return null;
+          },
+          onSaved: (value) {
+            question.question = value!;
+          },
+        ),
+        ...question.answers!
+            .map((answer) => buildAnswerWidget(question, answer)),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              final newAnswer = Answer(
+                identifier: UniqueKey().toString(), // Use a unique identifier
+                text: '',
+              );
+
+              question.answers!.add(newAnswer);
+              question.setCorrectAnswer(newAnswer.identifier);
+            });
+          },
+          child: Text('Add Answer'),
+        ),
+      ],
+    );
+  }
+
+  Widget buildAnswerWidget(Question question, Answer answer) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            initialValue: answer.text,
+            decoration: const InputDecoration(labelText: 'Answer'),
+            textInputAction: TextInputAction.next,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please provide an answer';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              answer.text = value!;
+            },
+          ),
+        ),
+        Radio(
+          value: answer.identifier,
+          groupValue: question.correctAnswer,
+          onChanged: (String? value) {
+            setState(() {
+              question.setCorrectAnswer(value!);
+            });
+          },
+        ),
+      ],
     );
   }
 }
