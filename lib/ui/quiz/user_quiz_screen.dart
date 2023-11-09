@@ -121,7 +121,8 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
       icon: const Icon(Icons.edit),
       onPressed: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EditQuizScreen(quiz)));
+                MaterialPageRoute(builder: (context) => EditQuizScreen(quiz)))
+            .then((res) => refreshPage());
       },
       color: Theme.of(context).primaryColor,
     );
@@ -153,19 +154,21 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
             ),
             TextButton(
               onPressed: () async {
-                await quizService.deleteQuiz(quiz.id!);
-                Navigator.of(context).pop();
+                await quizService.deleteQuiz(quiz.id);
+
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Quiz deleted',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }
 
                 _refreshKey.currentState?.show();
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Quiz deleted',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
               },
               child: const Text('Delete'),
             ),
@@ -173,5 +176,9 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
         );
       },
     );
+  }
+
+  refreshPage() {
+    _refreshKey.currentState?.show();
   }
 }

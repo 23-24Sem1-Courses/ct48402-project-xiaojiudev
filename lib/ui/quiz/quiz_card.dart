@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:ct484_final_project/models/quiz.dart';
-import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:ct484_final_project/ui/quiz/quiz_screen.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -10,7 +9,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 class QuizCard extends StatelessWidget {
   final QuizCourse quiz;
 
-  const QuizCard({required this.quiz});
+  const QuizCard({super.key, required this.quiz});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class QuizCard extends StatelessWidget {
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(22),
-            side: BorderSide(color: Colors.black, width: 2.0),
+            side: const BorderSide(color: Colors.black, width: 2.0),
           ),
           child: Padding(
             padding: const EdgeInsets.all(10.0),

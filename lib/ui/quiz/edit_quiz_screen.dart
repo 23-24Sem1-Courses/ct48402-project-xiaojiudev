@@ -48,6 +48,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   @override
   void initState() {
+    super.initState();
     _imageUrlController.text = widget.quizCourse.imageUrl ?? '';
     _imageUrlFocusNode.addListener(() {
       if (!_imageUrlFocusNode.hasFocus) {
@@ -83,6 +84,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
       AppLogger.info('Form: ${widget.quizCourse}');
 
       await FirebaseQuizService().saveQuiz(widget.quizCourse);
+
     } catch (error) {
       if (mounted) {
         AppLogger.error('Something went wrong.');
@@ -131,7 +133,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
                         onPressed: () {
                           setState(() {
                             final newQuestion = Question(
-                              id: new Uuid()
+                              id: const Uuid()
                                   .v4(), // Set a unique identifier for the question
                               question: '',
                               answers: [],
@@ -140,7 +142,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
                             widget.quizCourse.questions!.add(newQuestion);
                           });
                         },
-                        child: Text('Add Question'),
+                        child: const Text('Add Question'),
                       ),
                       //   buildQuestionField(),
                     ],
@@ -151,7 +153,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   TextFormField buildTitleField() {
     return TextFormField(
-      initialValue: widget.quizCourse.title ?? '',
+      initialValue: widget.quizCourse.title,
       decoration: const InputDecoration(labelText: 'Title'),
       textInputAction: TextInputAction.next,
       autofocus: true,
@@ -170,7 +172,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   TextFormField buildDescriptionField() {
     return TextFormField(
-      initialValue: widget.quizCourse.description ?? '',
+      initialValue: widget.quizCourse.description,
       decoration: const InputDecoration(labelText: 'Description'),
       maxLines: 3,
       keyboardType: TextInputType.multiline,
