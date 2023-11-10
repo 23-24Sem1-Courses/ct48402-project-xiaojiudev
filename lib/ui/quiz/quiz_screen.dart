@@ -31,7 +31,7 @@ class QuizScreen extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                 ),
                 width: MediaQuery.of(context).size.width,
-                height: 393,
+                height: 550,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -39,6 +39,18 @@ class QuizScreen extends StatelessWidget {
                       quiz.title,
                       style: mediaumTextStyle.copyWith(fontSize: 32),
                       textAlign: TextAlign.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        quiz.description,
+                        style: mediaumTextStyle.copyWith(
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          color: greyColor,
+                        ),
+                        textAlign: TextAlign.justify,
+                      ),
                     ),
                     CachedNetworkImage(
                       imageUrl: quiz.imageUrl!,
