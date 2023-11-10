@@ -90,44 +90,4 @@ class FirebaseQuizService {
       return [];
     }
   }
-
-  Future<QuizCourse?> fetchQuizData(String quizId) async {
-    try {
-      final DocumentSnapshot doc = await _firestore
-          .collection(FIREBASE_QUIZ_COLLECTION)
-          .doc(quizId)
-          .get();
-
-      if (doc.exists) {
-        final data = doc.data() as Map<String, dynamic>;
-
-        return QuizCourse(
-          id: data['id'],
-          title: data['title'],
-          imageUrl: data['image_url'],
-          description: data['Description'],
-          timeSeconds: data['time_seconds'],
-          questions: (data['questions'] as List).map((questionData) {
-            return Question(
-              id: questionData['id'],
-              question: questionData['question'],
-              correctAnswer: questionData['correct_answer'],
-              answers: (questionData['answers'] as List).map((answerData) {
-                return Answer(
-                  identifier: answerData['identifier'],
-                  text: answerData['text'],
-                );
-              }).toList(),
-            );
-          }).toList(),
-        );
-      } else {
-        AppLogger.warning('Quiz with ID $quizId not found.');
-        return null;
-      }
-    } catch (error) {
-      AppLogger.error('Error fetching quiz data: $error');
-      return null;
-    }
-  }
 }
