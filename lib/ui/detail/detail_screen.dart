@@ -52,7 +52,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
     _countdown = widget.timeCountdown;
 
-    countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _countdown = _countdown - 1;
       });
@@ -67,7 +67,7 @@ class _DetailScreenState extends State<DetailScreen> {
           MaterialPageRoute(
             builder: (context) => ResultScreen(
               correctQuestion: score,
-			  totalQuestions: quizQuestions.length,
+              totalQuestions: quizQuestions.length,
             ),
           ),
         ).then((_) => countdownTimer.cancel());
@@ -100,15 +100,14 @@ class _DetailScreenState extends State<DetailScreen> {
               bottom: 450,
               child: DottedBorder(
                 color: Colors.black,
-                dashPattern: [12, 8],
+                dashPattern: const [12, 8],
                 strokeWidth: 2,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 270,
-                  padding: EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
-                    //border: Border.all(color: blackColor, width: 4.0),
                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
                   ),
                   child: Center(
@@ -126,7 +125,7 @@ class _DetailScreenState extends State<DetailScreen> {
               left: 0,
               height: 150,
               width: 100,
-              child: Container(
+              child: SizedBox(
                 width: 120,
                 height: 120,
                 child: Image.asset(
@@ -156,74 +155,76 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
-                  //border: Border.all(color: blackColor, width: 4.0),
                   borderRadius: BorderRadius.all(Radius.circular(20.0)),
                 ),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomRadioButton(
-                      elevation: 3,
-                      absoluteZeroSpacing: false,
-                      unSelectedColor: Theme.of(context).canvasColor,
-                      buttonLables:
-                          currentQuestion.answerOptions.values.toList(),
-                      buttonValues: currentQuestion.answerOptions.keys.toList(),
-                      padding: 10,
-                      enableShape: true,
-                      horizontal: true,
-                      spacing: 0,
-                      height: 50,
-                      buttonTextStyle: ButtonTextStyle(
-                        selectedColor: selectedButtonIndex == -1
-                            ? Colors.black
-                            : Colors.white,
-                        textStyle: TextStyle(fontSize: 16),
+                    Expanded(
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          const SizedBox(height: 10),
+                          CustomRadioButton(
+                            elevation: 3,
+                            absoluteZeroSpacing: false,
+                            unSelectedColor: Theme.of(context).canvasColor,
+                            buttonLables:
+                                currentQuestion.answerOptions.values.toList(),
+                            buttonValues:
+                                currentQuestion.answerOptions.keys.toList(),
+                            padding: calculatePadding(
+                                currentQuestion.answerOptions.length),
+                            enableShape: true,
+                            horizontal: true,
+                            spacing: 5,
+                            height: 50,
+                            buttonTextStyle: ButtonTextStyle(
+                              selectedColor: selectedButtonIndex == -1
+                                  ? Colors.black
+                                  : Colors.white,
+                              textStyle: const TextStyle(fontSize: 16),
+                            ),
+                            radioButtonValue: (value) {
+                              if (!answered) {
+                                setState(() {
+                                  selectedAnswer = value;
+                                  selectedButtonIndex = currentQuestion
+                                      .answerOptions.keys
+                                      .toList()
+                                      .indexOf(value);
+                                });
+                                AppLogger.info(
+                                    'Selected value: $selectedAnswer');
+                              }
+                            },
+                            selectedColor: selectedButtonIndex != -1
+                                ? const Color(0xff7C3CFF)
+                                : Theme.of(context).canvasColor,
+                          ),
+                        ],
                       ),
-                      radioButtonValue: (value) {
-                        if (!answered) {
-                          setState(() {
-                            selectedAnswer = value;
-                            selectedButtonIndex = currentQuestion
-                                .answerOptions.keys
-                                .toList()
-                                .indexOf(value);
-                          });
-                          AppLogger.info('Selected value: ${selectedAnswer}');
-                        }
-                      },
-                      selectedColor: selectedButtonIndex != -1
-                          ? const Color(0xff7C3CFF)
-                          : Theme.of(context).canvasColor,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 120,
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              // TODO: handle back
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => MenuScreen()));
+                                      builder: (context) =>
+                                          const MenuScreen()));
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xff7C3CFF),
+                              backgroundColor: const Color(0xff7C3CFF),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side:
-                                    BorderSide(color: Colors.white, width: 2.0),
+                                side: const BorderSide(
+                                    color: Colors.white, width: 2.0),
                               ),
                             ),
                             child: Text(
@@ -233,7 +234,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           width: 120,
                           height: 50,
                           child: ElevatedButton(
@@ -257,17 +258,20 @@ class _DetailScreenState extends State<DetailScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ResultScreen(
-                                            correctQuestion: score, totalQuestions: quizQuestions.length,)),
+                                              correctQuestion: score,
+                                              totalQuestions:
+                                                  quizQuestions.length,
+                                            )),
                                   );
                                 }
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xffFFC10F),
+                              backgroundColor: const Color(0xffFFC10F),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
-                                side:
-                                    BorderSide(color: Colors.black, width: 2.0),
+                                side: const BorderSide(
+                                    color: Colors.black, width: 2.0),
                               ),
                             ),
                             child: Text(
@@ -287,6 +291,22 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
     );
   }
+}
+
+double calculatePadding(int length) {
+  double maxPadding = 20.0;
+  double minPadding = 0.0;
+
+  int maxAnswers = 5;
+  int minAnswers = 1;
+
+  length = length.clamp(minAnswers, maxAnswers);
+
+  double padding = maxPadding -
+      ((maxPadding - minPadding) / (maxAnswers - minAnswers)) *
+          (length - minAnswers);
+
+  return padding.clamp(minPadding, maxPadding);
 }
 
 formartTime(int timeInSeconds) {
