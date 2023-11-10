@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
+import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:ct484_final_project/ui/quiz/quiz_card.dart';
 import 'package:ct484_final_project/ui/shared/app_drawer.dart';
@@ -8,6 +9,8 @@ import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/services/firebase_quiz_service.dart';
 
 class MenuScreen extends StatefulWidget {
+  static const routeName = 'menu-screen';
+
   const MenuScreen({super.key});
 
   @override
@@ -17,12 +20,14 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+
   late FirebaseQuizService _quizService;
 
   @override
   void initState() {
     super.initState();
     _quizService = FirebaseQuizService();
+
   }
 
   @override
@@ -98,7 +103,8 @@ class _MenuScreenState extends State<MenuScreen> {
                             style: mediaumTextStyle.copyWith(fontSize: 32),
                           ),
                           const SizedBox(height: 20),
-                          FutureBuilder(
+
+                          FutureBuilder<List<QuizCourse>>(
                             future: _quizService.fetchAllQuizzes(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
@@ -121,12 +127,12 @@ class _MenuScreenState extends State<MenuScreen> {
                               } else {
                                 final quizzes = snapshot.data;
                                 return ListView.builder(
-                                //   gridDelegate:
-                                //       const SliverGridDelegateWithFixedCrossAxisCount(
-                                //     crossAxisCount: 2,
-                                //     crossAxisSpacing: 16.0,
-                                //     mainAxisSpacing: 16.0,
-                                //   ),
+                                  //   gridDelegate:
+                                  //       const SliverGridDelegateWithFixedCrossAxisCount(
+                                  //     crossAxisCount: 2,
+                                  //     crossAxisSpacing: 16.0,
+                                  //     mainAxisSpacing: 16.0,
+                                  //   ),
                                   itemCount: quizzes!.length,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),

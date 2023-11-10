@@ -4,6 +4,8 @@ import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/menu/menu_screen.dart';
 
 class ResultScreen extends StatelessWidget {
+  static const routeName = 'result-screen';
+
   final int correctQuestion;
   final int totalQuestions;
   const ResultScreen(
@@ -119,10 +121,10 @@ class ResultScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MenuScreen()));
+                    Navigator.pushReplacementNamed(
+                      context,
+                      MenuScreen.routeName,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: blueColor,
@@ -145,4 +147,3 @@ class ResultScreen extends StatelessWidget {
     );
   }
 }
-

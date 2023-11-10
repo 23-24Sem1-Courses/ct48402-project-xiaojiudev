@@ -4,6 +4,8 @@ import 'package:ct484_final_project/ui/menu/menu_screen.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 
 class SplashScreen extends StatelessWidget {
+  static const routeName = '/splash-screen';
+
   const SplashScreen({super.key});
 
   @override
@@ -12,7 +14,7 @@ class SplashScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           color: softpurpleColor,
-          image: DecorationImage(
+          image: const DecorationImage(
             image: AssetImage('assets/images/app_quiz_logo.png'),
             fit: BoxFit.contain,
           ),
@@ -22,13 +24,15 @@ class SplashScreen extends StatelessWidget {
           children: [
             const Spacer(),
             Center(
-              child: Container(
+              child: SizedBox(
                 width: 220,
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MenuScreen()));
+                    Navigator.pushNamed(
+                      context,
+                      MenuScreen.routeName,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

@@ -10,6 +10,7 @@ import 'package:ct484_final_project/ui/quiz/edit_quiz_screen.dart';
 import 'package:ct484_final_project/services/firebase_quiz_service.dart';
 
 class UserQuizScreen extends StatefulWidget {
+  static const routeName = 'user-quiz-screen';
   const UserQuizScreen({super.key});
 
   @override
@@ -32,11 +33,12 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
         backgroundColor: softblueColor,
         leading: IconButton(
           onPressed: () {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const MenuScreen()),
-                (Route<dynamic> route) => false);
-            // Navigator.of(context).pop();
+            // Navigator.pushNamedAndRemoveUntil(
+            //   context,
+            //   MenuScreen.routeName,
+            //   (Route<dynamic> route) => true,
+            // );
+            Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back),
         ),
@@ -110,8 +112,11 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
     return IconButton(
       icon: const Icon(Icons.add),
       onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EditQuizScreen(null)));
+        Navigator.pushReplacementNamed(
+          context,
+          EditQuizScreen.routeName,
+          arguments: null,
+        );
       },
     );
   }
@@ -120,9 +125,11 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
     return IconButton(
       icon: const Icon(Icons.edit),
       onPressed: () {
-        Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EditQuizScreen(quiz)))
-            .then((res) => refreshPage());
+        Navigator.pushReplacementNamed(
+          context,
+          EditQuizScreen.routeName,
+          arguments: quiz,
+        );
       },
       color: Theme.of(context).primaryColor,
     );
@@ -178,7 +185,4 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
     );
   }
 
-  refreshPage() {
-    _refreshKey.currentState?.show();
-  }
 }

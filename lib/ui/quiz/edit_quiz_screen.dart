@@ -5,9 +5,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
+import 'package:ct484_final_project/ui/quiz/user_quiz_screen.dart';
 import 'package:ct484_final_project/services/firebase_quiz_service.dart';
 
 class EditQuizScreen extends StatefulWidget {
+  static const routeName = 'edit-quiz-screen';
+
   EditQuizScreen(
     QuizCourse? quizCourse, {
     super.key,
@@ -95,7 +98,13 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
     });
 
     if (mounted) {
-      Navigator.of(context).pop();
+      //   Navigator.of(context).pop();
+      Navigator.pushReplacementNamed(
+        context,
+        UserQuizScreen.routeName,
+      ).then((_) {
+        setState(() {});
+      });
     }
   }
 

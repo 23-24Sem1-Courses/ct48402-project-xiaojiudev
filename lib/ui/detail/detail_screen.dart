@@ -10,6 +10,8 @@ import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/result/result_screen.dart';
 
 class DetailScreen extends StatefulWidget {
+  static const routeName = 'detail-screen';
+
   final List<Question> questions;
   final int timeCountdown;
 
@@ -62,15 +64,12 @@ class _DetailScreenState extends State<DetailScreen> {
 
         timer.cancel();
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ResultScreen(
-              correctQuestion: score,
-              totalQuestions: quizQuestions.length,
-            ),
-          ),
-        ).then((_) => countdownTimer.cancel());
+        Navigator.pushReplacementNamed(context, ResultScreen.routeName,
+            arguments: {
+              'correctQuestion': score,
+              'totalQuestions': quizQuestions.length,
+            }
+            ).then((_) => countdownTimer.cancel());
       }
     });
   }
@@ -213,11 +212,10 @@ class _DetailScreenState extends State<DetailScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MenuScreen()));
+                              Navigator.pushReplacementNamed(
+                                context,
+                                MenuScreen.routeName,
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff7C3CFF),
@@ -254,15 +252,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                     selectedButtonIndex = -1;
                                   });
                                 } else {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ResultScreen(
-                                              correctQuestion: score,
-                                              totalQuestions:
-                                                  quizQuestions.length,
-                                            )),
-                                  );
+                                  Navigator.pushReplacementNamed(
+                                      context, ResultScreen.routeName,
+                                      arguments: {
+                                        'correctQuestion': score,
+                                        'totalQuestions': quizQuestions.length,
+                                      }
+                                      );
                                 }
                               }
                             },

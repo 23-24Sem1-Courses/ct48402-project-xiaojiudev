@@ -15,8 +15,11 @@ class QuizCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => QuizScreen(quiz: quiz)));
+        Navigator.pushNamed(
+          context,
+          QuizScreen.routeName,
+          arguments: quiz,
+        );
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(22),

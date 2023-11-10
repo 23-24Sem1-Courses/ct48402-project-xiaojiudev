@@ -8,6 +8,7 @@ import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/detail/detail_screen.dart';
 
 class QuizScreen extends StatelessWidget {
+  static const routeName = 'quiz-screen';
   final QuizCourse quiz;
   const QuizScreen({required this.quiz, Key? key}) : super(key: key);
 
@@ -74,12 +75,14 @@ class QuizScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailScreen(
-                                questions: quiz.questions!,
-                                timeCountdown: quiz.timeSeconds)));
+                    Navigator.pushNamed(
+                      context,
+					  DetailScreen.routeName,
+					  arguments: {
+						'questions': quiz.questions,
+						'timeCountdown': quiz.timeSeconds,
+					  }
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffFFC10F),
