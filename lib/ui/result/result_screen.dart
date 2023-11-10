@@ -1,7 +1,10 @@
+import 'package:ct484_final_project/ui/quiz/quiz_provider.dart';
+import 'package:ct484_final_project/ui/screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/menu/menu_screen.dart';
+import 'package:provider/provider.dart';
 
 class ResultScreen extends StatelessWidget {
   static const routeName = 'result-screen';
@@ -13,6 +16,11 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+	final quizProvider = Provider.of<QuizProvider>(context);
+	final currentQuiz = quizProvider.currentQuiz;
+
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -121,9 +129,11 @@ class ResultScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(
+                    Navigator.pushNamedAndRemoveUntil(
                       context,
-                      MenuScreen.routeName,
+                      QuizScreen.routeName,
+                      arguments: currentQuiz,
+					  ModalRoute.withName(MenuScreen.routeName),
                     );
                   },
                   style: ElevatedButton.styleFrom(
