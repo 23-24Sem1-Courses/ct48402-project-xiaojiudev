@@ -84,7 +84,6 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
       AppLogger.info('Form: ${widget.quizCourse}');
 
       await FirebaseQuizService().saveQuiz(widget.quizCourse);
-
     } catch (error) {
       if (mounted) {
         AppLogger.error('Something went wrong.');
@@ -102,8 +101,6 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // AppLogger.info('Quiz id ${widget.quizCourse.id}');
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('Edit Quiz'),
@@ -133,8 +130,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
                         onPressed: () {
                           setState(() {
                             final newQuestion = Question(
-                              id: const Uuid()
-                                  .v4(), // Set a unique identifier for the question
+                              id: const Uuid().v4(),
                               question: '',
                               answers: [],
                               correctAnswer: '',
@@ -144,7 +140,6 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
                         },
                         child: const Text('Add Question'),
                       ),
-                      //   buildQuestionField(),
                     ],
                   ),
                 ),
@@ -282,19 +277,35 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextFormField(
-          initialValue: question.question,
-          decoration: InputDecoration(labelText: 'Question'),
-          textInputAction: TextInputAction.next,
-          validator: (value) {
-            if (value?.isEmpty ?? true) {
-              return 'Please provide a question';
-            }
-            return null;
-          },
-          onSaved: (value) {
-            question.question = value!;
-          },
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                initialValue: question.question,
+                decoration: const InputDecoration(labelText: 'Question'),
+                textInputAction: TextInputAction.next,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please provide a question';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  question.question = value!;
+                },
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close),
+              color: redColor,
+              onPressed: () {
+                AppLogger.info('deleteQuestion');
+                setState(() {
+                  widget.quizCourse.questions!.remove(question);
+                });
+              },
+            ),
+          ],
         ),
         ...question.answers!
             .map((answer) => buildAnswerWidget(question, answer)),
@@ -302,7 +313,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
           onPressed: () {
             setState(() {
               final newAnswer = Answer(
-                identifier: UniqueKey().toString(), // Use a unique identifier
+                identifier: UniqueKey().toString(),
                 text: '',
               );
 
@@ -310,7 +321,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
               question.setCorrectAnswer(newAnswer.identifier);
             });
           },
-          child: Text('Add Answer'),
+          child: const Text('Add Answer'),
         ),
       ],
     );
@@ -341,6 +352,15 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
           onChanged: (String? value) {
             setState(() {
               question.setCorrectAnswer(value!);
+            });
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.close),
+          color: redColor,
+          onPressed: () {
+            setState(() {
+              question.answers!.remove(answer);
             });
           },
         ),
