@@ -31,7 +31,7 @@ class AppDrawer extends StatelessWidget {
                   child: ClipOval(
                     child: Image.asset(
                       'assets/images/icon.png',
-                      width: 70, // Increase the width to make the image larger
+                      width: 70,
                     ),
                   ),
                 ),
@@ -107,10 +107,6 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Sign out'),
             onTap: () {
-              //   Navigator.of(context)
-              //     ..pop()
-              //     ..pushReplacementNamed('/');
-              //   context.read<AuthManager>().logout();
               AppLogger.info('User logout!');
             },
           ),

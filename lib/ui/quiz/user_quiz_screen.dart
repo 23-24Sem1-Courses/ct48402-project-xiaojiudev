@@ -33,11 +33,6 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
         backgroundColor: softblueColor,
         leading: IconButton(
           onPressed: () {
-            // Navigator.pushNamedAndRemoveUntil(
-            //   context,
-            //   MenuScreen.routeName,
-            //   (Route<dynamic> route) => true,
-            // );
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back),

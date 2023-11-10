@@ -58,7 +58,7 @@ class FirebaseQuizService {
           await _firestore.collection(FIREBASE_QUIZ_COLLECTION).get();
 
       final quizzes = querySnapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
 
         // AppLogger.info(data);
 

@@ -98,7 +98,6 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
     });
 
     if (mounted) {
-      //   Navigator.of(context).pop();
       Navigator.pushReplacementNamed(
         context,
         UserQuizScreen.routeName,

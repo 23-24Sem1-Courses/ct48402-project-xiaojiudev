@@ -43,11 +43,7 @@ class _DetailScreenState extends State<DetailScreen> {
     quizQuestions = widget.questions.map((questionData) {
       return QuizQuestion(
         question: questionData.question,
-        answerOptions: Map.fromIterable(
-          questionData.answers!,
-          key: (answer) => answer.identifier,
-          value: (answer) => answer.text,
-        ),
+        answerOptions: { for (var answer in questionData.answers!) answer.identifier : answer.text },
         correctAnswer: questionData.correctAnswer,
       );
     }).toList();
