@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
-import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:ct484_final_project/ui/quiz/quiz_card.dart';
 import 'package:ct484_final_project/ui/shared/app_drawer.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/services/firebase_quiz_service.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -122,6 +121,12 @@ class _MenuScreenState extends State<MenuScreen> {
                               } else {
                                 final quizzes = snapshot.data;
                                 return ListView.builder(
+                                //   gridDelegate:
+                                //       const SliverGridDelegateWithFixedCrossAxisCount(
+                                //     crossAxisCount: 2,
+                                //     crossAxisSpacing: 16.0,
+                                //     mainAxisSpacing: 16.0,
+                                //   ),
                                   itemCount: quizzes!.length,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
