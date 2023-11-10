@@ -1,3 +1,4 @@
+import 'package:ct484_final_project/ui/quiz/quiz_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -5,6 +6,7 @@ import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/ui/quiz/quiz_screen.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:provider/provider.dart';
 
 class QuizCard extends StatelessWidget {
   final QuizCourse quiz;
@@ -13,8 +15,12 @@ class QuizCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+	
+
     return InkWell(
       onTap: () {
+		Provider.of<QuizProvider>(context, listen: false).setQuiz(quiz);
+		
         Navigator.pushNamed(
           context,
           QuizScreen.routeName,
