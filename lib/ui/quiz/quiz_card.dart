@@ -41,10 +41,6 @@ class QuizCard extends StatelessWidget {
                 quiz.title,
                 style: mediaumTextStyle.copyWith(fontSize: 15),
               ),
-              subtitle: Text(
-                quiz.description,
-                textAlign: TextAlign.justify,
-              ),
               trailing: Image.asset('assets/images/Play.png'),
             ),
           ),
