@@ -204,7 +204,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: 120,
+                          width: 150,
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
@@ -229,7 +229,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: 120,
+                          width: 150,
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
