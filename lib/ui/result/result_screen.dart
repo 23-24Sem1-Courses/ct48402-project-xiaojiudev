@@ -3,7 +3,6 @@ import 'package:ct484_final_project/ui/screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ct484_final_project/configs/themes/theme.dart';
-import 'package:ct484_final_project/ui/menu/menu_screen.dart';
 import 'package:provider/provider.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -121,9 +120,39 @@ class ResultScreen extends StatelessWidget {
             ),
             Positioned(
               top: 770,
-              left: 100,
+              left: 10,
               height: 50,
-              width: 206,
+              width: 180,
+              child: SizedBox(
+                width: 220,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      MenuScreen.routeName
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xffFFC10F),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(22),
+                      side: const BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                  ),
+                  child: Text(
+                    'Home',
+                    style: regularTextStyle.copyWith(
+                        fontSize: 18, color: blackColor),
+                  ),
+                ),
+              ),
+            ),
+			Positioned(
+              top: 770,
+              right: 10,
+              height: 50,
+              width: 180,
               child: SizedBox(
                 width: 220,
                 height: 50,
