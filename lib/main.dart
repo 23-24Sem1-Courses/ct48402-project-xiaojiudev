@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         ),
         home: const SplashScreen(),
         routes: {
-          MenuScreen.routeName: (ctx) => const MenuScreen(),
+          MenuScreen.routeName: (ctx) => MenuScreen(),
           UserQuizScreen.routeName: (ctx) => const UserQuizScreen(),
           EditQuizScreen.routeName: (ctx) {
             final quiz = ModalRoute.of(ctx)!.settings.arguments as QuizCourse?;
