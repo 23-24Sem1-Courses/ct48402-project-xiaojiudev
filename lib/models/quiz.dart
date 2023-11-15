@@ -17,6 +17,13 @@ class Answer {
     );
   }
 
+  factory Answer.fromJson(Map<String, dynamic> json) {
+    return Answer(
+      identifier: json['identifier'],
+      text: json['text'],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'identifier': identifier,
@@ -55,6 +62,26 @@ class Question {
   void setCorrectAnswer(String newCorrectAnswer) {
     correctAnswer = newCorrectAnswer;
   }
+
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
+      id: json['id'],
+      question: json['question'],
+      correctAnswer: json['correct_answer'],
+      answers: (json['answers'] as List<dynamic>?)
+          ?.map((answerJson) => Answer.fromJson(answerJson))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'question': question,
+      'correct_answer': correctAnswer,
+      'answers': answers?.map((answer) => answer.toJson()).toList(),
+    };
+  }
 }
 
 class QuizCourse {
@@ -90,5 +117,29 @@ class QuizCourse {
       timeSeconds: timeSeconds ?? this.timeSeconds,
       questions: questions ?? this.questions,
     );
+  }
+
+  factory QuizCourse.fromJson(Map<String, dynamic> json) {
+    return QuizCourse(
+      id: json['id'],
+      title: json['title'],
+      imageUrl: json['image_url'],
+      description: json['Description'],
+      timeSeconds: json['time_seconds'],
+      questions: (json['questions'] as List<dynamic>?)
+          ?.map((questionJson) => Question.fromJson(questionJson))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'image_url': imageUrl,
+      'Description': description,
+      'time_seconds': timeSeconds,
+      'questions': questions?.map((question) => question.toJson()).toList(),
+    };
   }
 }
