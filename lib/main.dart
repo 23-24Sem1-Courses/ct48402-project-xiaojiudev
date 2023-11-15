@@ -1,12 +1,11 @@
-import 'package:ct484_final_project/ui/quiz/quiz_provider.dart';
-import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:ct484_final_project/ui/screen.dart';
 import 'package:ct484_final_project/models/quiz.dart';
+import 'package:ct484_final_project/ui/quiz/quiz_provider.dart';
 import 'package:ct484_final_project/services/firebase_init_quiz_service.dart';
 
 void main() async {
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
         ),
         home: const SplashScreen(),
         routes: {
-          MenuScreen.routeName: (ctx) => MenuScreen(),
+          MenuScreen.routeName: (ctx) => const MenuScreen(),
           UserQuizScreen.routeName: (ctx) => const UserQuizScreen(),
           EditQuizScreen.routeName: (ctx) {
             final quiz = ModalRoute.of(ctx)!.settings.arguments as QuizCourse?;

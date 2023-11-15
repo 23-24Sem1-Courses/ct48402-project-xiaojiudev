@@ -23,18 +23,15 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  List<QuizQuestion> quizQuestions = [];
+  late Timer countdownTimer;
+  late List<QuizQuestion> quizQuestions = [];
   int currentQuestionIndex = 0;
-
   int score = 0;
   bool answered = false;
   String selectedAnswer = '';
   int selectedButtonIndex = -1;
-
   int _countdown = 0;
   bool resultScreenShown = false;
-
-  late Timer countdownTimer;
 
   @override
   void initState() {
@@ -43,7 +40,10 @@ class _DetailScreenState extends State<DetailScreen> {
     quizQuestions = widget.questions.map((questionData) {
       return QuizQuestion(
         question: questionData.question,
-        answerOptions: { for (var answer in questionData.answers!) answer.identifier : answer.text },
+        answerOptions: {
+          for (var answer in questionData.answers!)
+            answer.identifier: answer.text
+        },
         correctAnswer: questionData.correctAnswer,
       );
     }).toList();
@@ -57,17 +57,25 @@ class _DetailScreenState extends State<DetailScreen> {
 
       if (_countdown == 0 && !resultScreenShown) {
         resultScreenShown = true;
-
         timer.cancel();
 
-        Navigator.pushReplacementNamed(context, ResultScreen.routeName,
-            arguments: {
-              'correctQuestion': score,
-              'totalQuestions': quizQuestions.length,
-            }
-            ).then((_) => countdownTimer.cancel());
+        if (!answered && selectedAnswer.isNotEmpty) {
+          if (selectedAnswer ==
+              quizQuestions[currentQuestionIndex].correctAnswer) {
+            score++;
+          }
+        }
+
+        navigateToResultScreen();
       }
     });
+  }
+
+  void navigateToResultScreen() {
+    Navigator.pushReplacementNamed(context, ResultScreen.routeName, arguments: {
+      'correctQuestion': score,
+      'totalQuestions': quizQuestions.length,
+    }).then((_) => countdownTimer.cancel());
   }
 
   @override
@@ -79,12 +87,12 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     final currentQuestion = quizQuestions[currentQuestionIndex];
-    AppLogger.info('Your score is: ${score}');
+    AppLogger.info('Your score is: $score');
 
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: softpurpleColor,
+          color: airSuperiorityBlue,
         ),
         child: Stack(
           children: [
@@ -94,7 +102,7 @@ class _DetailScreenState extends State<DetailScreen> {
               right: 20,
               bottom: 450,
               child: DottedBorder(
-                color: Colors.black,
+                color: blueColor,
                 dashPattern: const [12, 8],
                 strokeWidth: 2,
                 child: Container(
@@ -168,7 +176,8 @@ class _DetailScreenState extends State<DetailScreen> {
                             buttonValues:
                                 currentQuestion.answerOptions.keys.toList(),
                             padding: calculatePadding(
-                                currentQuestion.answerOptions.length),
+                              currentQuestion.answerOptions.length,
+                            ),
                             enableShape: true,
                             horizontal: true,
                             spacing: 5,
@@ -214,7 +223,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff7C3CFF),
+                              backgroundColor: blueColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(22),
                                 side: const BorderSide(
@@ -253,8 +262,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       arguments: {
                                         'correctQuestion': score,
                                         'totalQuestions': quizQuestions.length,
-                                      }
-                                      );
+                                      });
                                 }
                               }
                             },

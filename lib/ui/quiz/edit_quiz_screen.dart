@@ -101,9 +101,7 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
       Navigator.pushReplacementNamed(
         context,
         UserQuizScreen.routeName,
-      ).then((_) {
-        setState(() {});
-      });
+      );
     }
   }
 

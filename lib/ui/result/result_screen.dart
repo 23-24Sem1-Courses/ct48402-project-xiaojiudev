@@ -1,9 +1,9 @@
 import 'package:ct484_final_project/ui/quiz/quiz_provider.dart';
-import 'package:ct484_final_project/ui/screen.dart';
 import 'package:flutter/material.dart';
-
-import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:provider/provider.dart';
+
+import 'package:ct484_final_project/ui/screen.dart';
+import 'package:ct484_final_project/configs/themes/theme.dart';
 
 class ResultScreen extends StatelessWidget {
   static const routeName = 'result-screen';
@@ -23,7 +23,7 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: softpurpleColor,
+          color: airSuperiorityBlue,
         ),
         child: Stack(
           children: [

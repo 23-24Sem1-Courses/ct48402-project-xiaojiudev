@@ -360,7 +360,6 @@ class InitQuizService {
         AppLogger.info('Collection and document created successfully.');
       }
 
-      // Sample data for a quiz
     } catch (error) {
       AppLogger.error('Error creating collection and document: $error');
     }

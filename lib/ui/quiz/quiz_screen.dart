@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:ct484_final_project/models/quiz.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:ct484_final_project/utils/time_utils..dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/detail/detail_screen.dart';
@@ -10,6 +10,7 @@ import 'package:ct484_final_project/ui/detail/detail_screen.dart';
 class QuizScreen extends StatelessWidget {
   static const routeName = 'quiz-screen';
   final QuizCourse quiz;
+  
   const QuizScreen({required this.quiz, Key? key}) : super(key: key);
 
   @override
@@ -17,7 +18,7 @@ class QuizScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: softpurpleColor,
+          color: airSuperiorityBlue,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: edge),
@@ -28,7 +29,7 @@ class QuizScreen extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: blackColor, width: 4.0),
+                  border: Border.all(color: airSuperiorityBlue, width: 4.0),
                   borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                 ),
                 width: MediaQuery.of(context).size.width,

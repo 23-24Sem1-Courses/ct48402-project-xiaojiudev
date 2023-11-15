@@ -13,7 +13,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            color: softpurpleColor,
+            color: airSuperiorityBlue,
             width: double.infinity,
             height: 200,
             padding: const EdgeInsets.only(top: 30.0),
@@ -77,7 +77,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.edit),
             title: const Text('Manage Quizzes'),
             onTap: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(true);
               Navigator.pushNamed(
                 context,
 				UserQuizScreen.routeName

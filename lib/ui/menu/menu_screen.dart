@@ -40,6 +40,12 @@ class _MenuScreenState extends State<MenuScreen> {
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _fetchAllQuizzes();
+  }
+
   Future<void> _fetchAllQuizzes() async {
     try {
       final quizzes = await _quizService.fetchAllQuizzes();
@@ -56,8 +62,8 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: const AppDrawer(),
-      backgroundColor: softpurpleColor,
+      drawer: AppDrawer(),
+      backgroundColor: airSuperiorityBlue,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -113,9 +119,13 @@ class _MenuScreenState extends State<MenuScreen> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         color: softblueColor,
-                        border: Border.all(color: Colors.black, width: 3.0),
+                        border: Border.all(
+                          color: const Color(0xff5D5E60),
+                          width: 3.0,
+                        ),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(44.0),
+                          bottomLeft: Radius.circular(44.0),
                         ),
                       ),
                       child: Padding(
@@ -128,15 +138,25 @@ class _MenuScreenState extends State<MenuScreen> {
                               "All Quizzes",
                               style: mediaumTextStyle.copyWith(fontSize: 32),
                             ),
+                            const SizedBox(height: 15),
                             TextField(
                               controller: _searchController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Search Quizzes',
-                                border: OutlineInputBorder(
+                                labelStyle: TextStyle(color: lapisLazuli),
+                                border: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(7.0)),
                                 ),
-                                prefixIcon: Icon(Icons.search),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: lapisLazuli,
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(7.0)),
+                                ),
+                                prefixIcon: const Icon(Icons.search),
                               ),
                               onChanged: _handleSearch,
                             ),

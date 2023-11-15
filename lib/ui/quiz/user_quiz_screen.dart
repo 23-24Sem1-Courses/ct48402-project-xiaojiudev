@@ -1,10 +1,10 @@
+import 'package:ct484_final_project/ui/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/utils/app_logger.dart';
-import 'package:ct484_final_project/ui/menu/menu_screen.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
 import 'package:ct484_final_project/ui/quiz/edit_quiz_screen.dart';
 import 'package:ct484_final_project/services/firebase_quiz_service.dart';
@@ -157,9 +157,10 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
             TextButton(
               onPressed: () async {
                 await quizService.deleteQuiz(quiz.id);
-
+                
                 if (context.mounted) {
-                  Navigator.of(context).pop();
+                  Navigator.of(context, rootNavigator: true).pop();
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(
@@ -169,7 +170,6 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
                     ),
                   );
                 }
-
                 _refreshKey.currentState?.show();
               },
               child: const Text('Delete'),
@@ -179,5 +179,4 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
       },
     );
   }
-
 }
