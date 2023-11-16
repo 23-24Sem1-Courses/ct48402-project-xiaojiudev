@@ -1,5 +1,6 @@
 import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:ct484_final_project/models/quiz.dart';
@@ -107,49 +108,71 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Edit Quiz'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: _saveForm,
-            ),
-          ],
-          backgroundColor: softblueColor,
-        ),
-        body: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: ListView(
-                    children: [
-                      buildTitleField(),
-                      buildDescriptionField(),
-                      buildQuizPreview(),
-                      buildTimeField(),
-                      ...widget.quizCourse.questions!
-                          .map((question) => buildQuestionWidget(question)),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            final newQuestion = Question(
-                              id: const Uuid().v4(),
-                              question: '',
-                              answers: [],
-                              correctAnswer: '',
-                            );
-                            widget.quizCourse.questions!.add(newQuestion);
-                          });
-                        },
-                        child: const Text('Add Question'),
+    return GestureDetector(
+      onTap: () {
+        final currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Edit Quiz'),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.save),
+                onPressed: _saveForm,
+              ),
+            ],
+            backgroundColor: softblueColor,
+          ),
+          body: _isLoading
+              ? const Center(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: LoadingIndicator(
+                        indicatorType: Indicator.ballSpinFadeLoader,
+                        colors: kDefaultRainbowColors,
+                        strokeWidth: 1,
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ));
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: ListView(
+                      children: [
+                        buildTitleField(),
+                        buildDescriptionField(),
+                        buildQuizPreview(),
+                        buildTimeField(),
+                        ...widget.quizCourse.questions!
+                            .map((question) => buildQuestionWidget(question)),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              final newQuestion = Question(
+                                id: const Uuid().v4(),
+                                question: '',
+                                answers: [],
+                                correctAnswer: '',
+                              );
+                              widget.quizCourse.questions!.add(newQuestion);
+                            });
+                          },
+                          child: const Text('Add Question'),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
+    );
   }
 
   TextFormField buildTitleField() {

@@ -188,6 +188,7 @@ class _MenuScreenState extends State<MenuScreen> {
               height: 60,
               child: LoadingIndicator(
                 indicatorType: Indicator.ballSpinFadeLoader,
+				colors: kDefaultRainbowColors,
                 strokeWidth: 1,
               ),
             ),

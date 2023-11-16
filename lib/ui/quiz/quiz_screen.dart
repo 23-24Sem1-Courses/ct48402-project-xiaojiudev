@@ -58,6 +58,7 @@ class QuizScreen extends StatelessWidget {
                       imageUrl: quiz.imageUrl!,
                       placeholder: (context, url) => const LoadingIndicator(
                         indicatorType: Indicator.ballSpinFadeLoader,
+						colors: kDefaultRainbowColors,
                         strokeWidth: 1,
                       ),
                       errorWidget: (context, url, error) =>

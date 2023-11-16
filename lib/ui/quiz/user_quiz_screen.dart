@@ -1,8 +1,8 @@
-import 'package:ct484_final_project/ui/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:ct484_final_project/ui/screen.dart';
 import 'package:ct484_final_project/models/quiz.dart';
 import 'package:ct484_final_project/utils/app_logger.dart';
 import 'package:ct484_final_project/configs/themes/theme.dart';
@@ -53,6 +53,7 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
                   height: 60,
                   child: LoadingIndicator(
                     indicatorType: Indicator.ballSpinFadeLoader,
+					colors: kDefaultRainbowColors,
                     strokeWidth: 1,
                   ),
                 ),
@@ -76,6 +77,7 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
                         imageUrl: quiz.imageUrl!,
                         placeholder: (context, url) => const LoadingIndicator(
                           indicatorType: Indicator.ballSpinFadeLoader,
+						  colors: kDefaultRainbowColors,
                           strokeWidth: 1,
                         ),
                         errorWidget: (context, url, error) =>
