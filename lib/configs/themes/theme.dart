@@ -11,6 +11,16 @@ Color softpurpleColor = Color(0xff9FAEFB);
 Color airSuperiorityBlue = Color(0xff6D9DC5);
 Color lapisLazuli = Color(0xff38618C);
 
+const List<Color> kDefaultRainbowColors = const [
+  Colors.red,
+  Colors.orange,
+  Colors.yellow,
+  Colors.green,
+  Colors.blue,
+  Colors.indigo,
+  Colors.purple,
+];
+
 double edge = 19;
 
 TextStyle regularTextStyle = GoogleFonts.roboto(
