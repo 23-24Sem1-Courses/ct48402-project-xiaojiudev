@@ -14,8 +14,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final initQuizService = InitQuizService();
-  await initQuizService.initializeFirestore();
+//   final initQuizService = InitQuizService();
+//   await initQuizService.initializeFirestore();
 
   runApp(const MyApp());
 }

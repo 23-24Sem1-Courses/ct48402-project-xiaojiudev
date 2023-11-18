@@ -53,7 +53,7 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
                   height: 60,
                   child: LoadingIndicator(
                     indicatorType: Indicator.ballSpinFadeLoader,
-					colors: kDefaultRainbowColors,
+                    colors: kDefaultRainbowColors,
                     strokeWidth: 1,
                   ),
                 ),
@@ -77,7 +77,7 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
                         imageUrl: quiz.imageUrl!,
                         placeholder: (context, url) => const LoadingIndicator(
                           indicatorType: Indicator.ballSpinFadeLoader,
-						  colors: kDefaultRainbowColors,
+                          colors: kDefaultRainbowColors,
                           strokeWidth: 1,
                         ),
                         errorWidget: (context, url, error) =>
@@ -159,7 +159,7 @@ class _UserQuizScreenState extends State<UserQuizScreen> {
             TextButton(
               onPressed: () async {
                 await quizService.deleteQuiz(quiz.id);
-                
+
                 if (context.mounted) {
                   Navigator.of(context, rootNavigator: true).pop();
 
