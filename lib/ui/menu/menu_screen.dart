@@ -106,7 +106,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     fontSize: 18, color: blackColor),
                               ),
                               Text(
-                                'Let’s start your quiz now !',
+                                'Let’s start your quiz now!',
                                 style: regularTextStyle.copyWith(fontSize: 14),
                               ),
                             ],
