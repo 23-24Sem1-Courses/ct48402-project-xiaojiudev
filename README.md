@@ -10,3 +10,7 @@ Học kỳ 1, Năm học 2023-2024
 
 **Tên dự án**: Study Quiz Application
 
+## SplashScreen (splash_screen.dart)
+![Splash Screen](assets\images\splash_screen.png)
+
+
