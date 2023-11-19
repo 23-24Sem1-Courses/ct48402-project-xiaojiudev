@@ -12,7 +12,7 @@ Học kỳ 1, Năm học 2023-2024
 
 ## SplashScreen (splash_screen.dart)
 <!-- ![SplashScreen](./assets/images/splash_screen.png) -->
-<img src="./assets/images/splash_screen.png" alt="SplashScreen" width="300" height="300" style="object-fit: cover;" />
+<img src="./assets/images/splash_screen.png" alt="SplashScreen" width="300" />
 
 ## MenuScreen (menu_screen.dart)
 ![MenuScreen](./assets/images/menu_screen.png)
