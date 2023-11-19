@@ -11,27 +11,26 @@ Học kỳ 1, Năm học 2023-2024
 **Tên dự án**: Study Quiz Application
 
 ## SplashScreen (splash_screen.dart)
-<!-- ![SplashScreen](./assets/images/splash_screen.png) -->
 <img src="./assets/images/splash_screen.png" alt="SplashScreen" width="300" />
 
 ## MenuScreen (menu_screen.dart)
-![MenuScreen](./assets/images/menu_screen.png)
+<img src="./assets/images/menu_screen.png" alt="MenuScreen" width="300" />
 
 ## AppDrawerScreen (app_drawer.dart)
-![AppDrawerScreen](./assets/images/app_drawer.png)
+<img src="./assets/images/app_drawer.png" alt="AppDrawerScreen" width="300" />
 
 ## QuizScreen (quiz_screen.dart)
-![QuizScreen](./assets/images/quiz_screen.png)
+<img src="./assets/images/quiz_screen.png" alt="QuizScreen" width="300" />
 
 ## DetailScreen (detail_screen.dart)
-![DetailScreen](./assets/images/detail_screen1.png)
+<img src="./assets/images/detail_screen1.png" alt="DetailScreen" width="300" />
 
 ## ResultScreen (result_screen.dart)
-![ResultScreen](./assets/images/result_screen.png)
+<img src="./assets/images/result_screen.png" alt="ResultScreen" width="300" />
 
 ## UserEditScreen (user_quiz_screen.dart)
-![UserEditScreen](./assets/images/user_quiz_screen.png)
+<img src="./assets/images/user_quiz_screen.png" alt="UserEditScreen" width="300" />
 
 ## EditQuizScreen (edit_quiz_screen.dart)
-![ValidateScreen](./assets/images/add_quiz_validate.png)
-![FormScreen](./assets/images/add_quiz.png)
+<img src="./assets/images/add_quiz_validate.png" alt="ValidateScreen" width="300" />
+<img src="./assets/images/add_quiz.png" alt="FormScreen" width="300" />
