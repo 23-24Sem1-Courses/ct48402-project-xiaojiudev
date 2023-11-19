@@ -11,26 +11,26 @@ Học kỳ 1, Năm học 2023-2024
 **Tên dự án**: Study Quiz Application
 
 ## SplashScreen (splash_screen.dart)
-![SplashScreen](assets/images/splash_screen.png)
+![SplashScreen](./assets/images/splash_screen.png)
 
 ## MenuScreen (menu_screen.dart)
-![MenuScreen](assets/images/menu_screen.png)
+![MenuScreen](./assets/images/menu_screen.png)
 
 ## AppDrawerScreen (app_drawer.dart)
-![AppDrawerScreen](assets/images/app_drawer.png)
+![AppDrawerScreen](./assets/images/app_drawer.png)
 
 ## QuizScreen (quiz_screen.dart)
-![QuizScreen](assets/images/quiz_screen.png)
+![QuizScreen](./assets/images/quiz_screen.png)
 
 ## DetailScreen (detail_screen.dart)
-![DetailScreen](assets/images/detail_screen1.png)
+![DetailScreen](./assets/images/detail_screen1.png)
 
 ## ResultScreen (result_screen.dart)
-![ResultScreen](assets/images/result_screen.png)
+![ResultScreen](./assets/images/result_screen.png)
 
 ## UserEditScreen (user_quiz_screen.dart)
-![UserEditScreen](assets/images/user_quiz_screen.png)
+![UserEditScreen](./assets/images/user_quiz_screen.png)
 
 ## EditQuizScreen (edit_quiz_screen.dart)
-![ValidateScreen](assets/images/add_quiz_validate.png)
-![FormScreen](assets/images/add_quiz.png)
+![ValidateScreen](./assets/images/add_quiz_validate.png)
+![FormScreen](./assets/images/add_quiz.png)
