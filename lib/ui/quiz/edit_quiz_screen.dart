@@ -78,6 +78,28 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
       return;
     }
 
+    if (widget.quizCourse.questions!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please add at least one question.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
+    for (var question in widget.quizCourse.questions!) {
+      if (question.answers!.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please add at least one answer for each question.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        return;
+      }
+    }
+
     _formKey.currentState!.save();
 
     setState(() {
