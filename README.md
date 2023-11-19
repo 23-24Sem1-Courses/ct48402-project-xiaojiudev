@@ -11,7 +11,14 @@ Học kỳ 1, Năm học 2023-2024
 **Tên dự án**: Study Quiz Application
 
 ## SplashScreen (splash_screen.dart)
-![SplashScreen](./assets/images/splash_screen.png)
+<!-- ![SplashScreen](./assets/images/splash_screen.png) -->
+<table>
+  <tr>
+    <td>
+      <img src="./assets/images/splash_screen.png" alt="SplashScreen" width="300" height="300" style="object-fit:cover;" />
+    </td>
+  </tr>
+</table>
 
 ## MenuScreen (menu_screen.dart)
 ![MenuScreen](./assets/images/menu_screen.png)
